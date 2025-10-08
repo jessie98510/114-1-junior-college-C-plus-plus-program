@@ -1,0 +1,41 @@
+#include <iostream> 
+#include <iomanip>  
+int main() {
+    setlocale(LC_ALL, "");
+    double weight_kg, height_m;
+    std::cout << "請輸入您的體重（公斤）：";
+    std::cin >> weight_kg;
+
+    std::cout << "請輸入您的身高（公分）：";
+    std::cin >> height_m;
+
+    if (height_m <= 0) {
+        std::cout << "身高輸入錯誤，必須大於 0。" << std::endl;
+        return 1;
+    }
+    double bmi = weight_kg / (height_m * height_m);
+
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "\n您的 BMI 值為：" << bmi << std::endl;
+
+    std::cout << "您的體重分類為：";
+    if (bmi < 18.5) {
+        std::cout << "過輕" << std::endl;
+    }
+    else if (bmi < 24) {
+        std::cout << "正常範圍" << std::endl;
+    }
+    else if (bmi < 27) {
+        std::cout << "過重" << std::endl;
+    }
+    else if (bmi < 30) {
+        std::cout << "輕度肥胖" << std::endl;
+    }
+    else if (bmi < 35) {
+        std::cout << "中度肥胖" << std::endl;
+    }
+    else {
+        std::cout << "重度肥胖" << std::endl;
+    }
+    return 0;
+}
