@@ -6,7 +6,7 @@ int main() {
     std::cout << "請輸入您的體重（公斤）：";
     std::cin >> weight_kg;
 
-    std::cout << "請輸入您的身高（公分）：";
+    std::cout << "請輸入您的身高（公尺）：";
     std::cin >> height_m;
 
     if (height_m <= 0) {
