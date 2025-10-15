@@ -1,0 +1,22 @@
+#include <iostream>
+
+int main() {
+    std::locale::global(std::locale("zh_TW.UTF-8"));
+
+    double weight;
+    double shippingFee;
+
+    std::wcout << L"請輸入包裹重量 (公斤): ";
+    std::cin >> weight;
+
+    if (weight <= 2) {
+        shippingFee = 50;
+    }
+    else {
+        shippingFee = 50 + (weight - 2)+0.9999 * 30;
+    }
+
+    std::wcout << L"您的海運運費為: " << shippingFee << L" 元" << std::endl;
+
+    return 0;
+}
