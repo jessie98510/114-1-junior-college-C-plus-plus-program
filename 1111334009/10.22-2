@@ -1,0 +1,44 @@
+#include <iostream>
+#include <iomanip> 
+
+using namespace std;
+
+int main() {
+    double principal;   
+    double rate;      
+    double depositAmount; 
+    double target;      
+    double currentAmount; 
+    int years = 0;         
+    cout << "請輸入初始本金 (例如 10000): ";
+    cin >> principal;
+
+    cout << "請輸入年利率 (例如 0.05 表示 5%): ";
+    cin >> rate;
+
+    cout << "請輸入每年底要存入的金額 (例如 5000): ";
+    cin >> depositAmount;
+
+    cout << "請輸入存款目標 (例如 50000): ";
+    cin >> target;
+
+    currentAmount = principal;
+
+    cout << fixed << setprecision(2);
+    cout << "--------------------------------" << endl;
+    cout << "第 " << years << " 年 (初始本金): " << currentAmount << endl;
+
+    while (currentAmount < target) {
+        years++;
+
+        currentAmount = currentAmount * (1.0 + rate);
+
+        currentAmount = currentAmount + depositAmount;
+
+        cout << "第 " << years << " 年底本利合: " << currentAmount << endl;
+    }
+    cout << "--------------------------------" << endl;
+    cout << "恭喜！總共花了 " << years << " 年達成或超過存款目標。" << endl;
+    return 0; 
+}
+
