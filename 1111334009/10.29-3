@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+int calcYears(int p, double r, int save, int aims) {
+    int years = 0;
+    double amount = p;
+    while (amount < aims) {
+        years++;
+        amount = amount * (1 + r) + save; 
+    }
+    return years;
+}
+int main() {
+    int p, save, aims;
+    double r;
+    cout << "請輸入本金 p：";
+    cin >> p; 
+    cout << "請輸入年利率 r：";
+    cin >> r; 
+    cout << "請輸入每年底定期定額存入金額：";
+    cin >> save;
+    cout << "請輸入存款目標 aims：";
+    cin >> aims;
+    double amount = p;
+    int year = 0;
+    cout << "==== 題目1 每年底金額 ====" << endl;
+    while (amount < aims) {
+        year++;
+        amount = amount * (1 + r) + save;
+        cout << "第 " << year << " 年底： " << amount << endl;
+    }
+    cout << "==== 題目2 副程式結果 ====" << endl;
+    int needYears = calcYears(p, r, save, aims);
+    cout << "共需 " << needYears << " 年才能達成目標！" << endl;
+
+    return 0;
+}
