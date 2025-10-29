@@ -1,0 +1,41 @@
+#include <iostream>
+double calculateBMI(double weight, double height) {
+    if (height <= 0 || weight <= 0) {
+        return 0.0;
+    }
+    return weight / (height * height);
+}
+int main() {
+    double user_weight, user_height, bmi;
+    std::cout << "請輸入體重 (公斤): ";
+    std::cin >> user_weight;
+    std::cout << "請輸入身高 (公尺): ";
+    std::cin >> user_height;
+    bmi = calculateBMI(user_weight, user_height);
+    if (bmi <= 0) {
+        std::cout << "錯誤：體重和身高都必須是正數。" << std::endl;
+    }
+    else {
+        printf("您的 BMI 值為: %.2f\n", bmi);
+        std::cout << "您的 BMI 等級為: ";
+        if (bmi < 18.5) {
+            std::cout << "體重過輕" << std::endl;
+        }
+        else if (bmi < 24) {
+            std::cout << "正常範圍" << std::endl;
+        }
+        else if (bmi < 27) {
+            std::cout << "過重" << std::endl;
+        }
+        else if (bmi < 30) {
+            std::cout << "輕度肥胖" << std::endl;
+        }
+        else if (bmi < 35) {
+            std::cout << "中度肥胖" << std::endl;
+        }
+        else {
+            std::cout << "重度肥胖" << std::endl;
+        }
+    }
+    return 0;
+}
