@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+double factorial(int x) {
+    double result = 1;
+    for (int i = 1; i <= x; i++) {
+        result *= i;
+    }
+    return result;
+}
+
+int main() {
+    int fact, n;
+    double e = 1.0;
+
+    cout << "請輸入一個整數 fact < 13：";
+    cin >> fact;
+
+    cout << fact << "! = " << factorial(fact) << endl;
+
+    cout << "請輸入項目數量 n < 13：";
+    cin >> n;
+
+    for (int i = 1; i <= n; i++) {
+        e += 1.0 / factorial(i);
+    }
+
+    cout << "e 的近似值為：" << e << endl;
+
+    return 0;
+}
