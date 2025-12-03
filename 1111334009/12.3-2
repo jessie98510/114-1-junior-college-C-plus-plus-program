@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+
+double power(double x, int n) {
+    if (n == 0) return 1;
+    return x * power(x, n - 1);
+}
+int factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+int main() {
+    int n;   
+    double x; 
+    cout << "請輸入項目數 n：";
+    cin >> n;
+    cout << "請輸入 x 值：";
+    cin >> x;
+
+    double e_x = 0;
+
+    for (int i = 0; i < n; i++) {
+        e_x += power(x, i) / factorial(i);
+    }
+
+    cout << "e^x 的近似值 = " << e_x << endl;
+
+    return 0;
+}
