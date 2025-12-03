@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+
+double power(double x, int n) {
+    if (n == 0) return 1.0;
+    return x * power(x, n - 1);
+}
+
+double factorial(int n) {
+    if (n <= 1) return 1.0;
+    return n * factorial(n - 1);
+}
+
+int main() {
+    int m;            
+    int n;            
+    double x;         
+
+    cout << "請輸入陣列大小 m：";
+    cin >> m;
+
+    if (m <= 0) {
+        cout << "m 必須大於 0\n";
+        return 0;
+    }
+
+    double* terms = new double[m];   
+
+    cout << "請輸入 n（n < m）：";
+    cin >> n;
+
+    if (n >= m) {
+        cout << "錯誤：n 必須小於 m\n";
+        return 0;
+    }
+
+    cout << "請輸入 x 值：";
+    cin >> x;
+
+    double e_x = 0.0;
+
+    for (int i = 0; i < n; i++) {
+        terms[i] = power(x, i) / factorial(i);
+        e_x += terms[i];
+    }
+
+    cout << "\n=== 級數每一項的值 ===\n";
+    for (int i = 0; i < n; i++) {
+        cout << "terms[" << i << "] = " << terms[i] << endl;
+    }
+
+    cout << "\n e^x 近似值 = " << e_x << endl;
+
+    delete[] terms;
+    return 0;
+}
