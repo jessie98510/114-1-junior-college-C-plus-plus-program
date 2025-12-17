@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+const int ROW = 3;
+const int COL = 10;
+
+float sortAndMedian(int score[ROW][COL], float avg[COL])
+{
+    for (int i = 0; i < COL - 1; i++)
+    {
+        for (int j = 0; j < COL - 1 - i; j++)
+        {
+            if (avg[j] > avg[j + 1])
+            {
+                float tempAvg = avg[j];
+                avg[j] = avg[j + 1];
+                avg[j + 1] = tempAvg;
+
+                for (int k = 0; k < ROW; k++)
+                {
+                    int temp = score[k][j];
+                    score[k][j] = score[k][j + 1];
+                    score[k][j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    if (COL % 2 == 0)
+        return (avg[COL / 2 - 1] + avg[COL / 2]) / 2;
+    else
+        return avg[COL / 2];
+}
+
+int main()
+{
+    int score[ROW][COL] =
+    {
+        {101,102,103,104,105,106,107,108,109,110},   
+        {80,75,90,60,85,88,70,95,78,82},            
+        {78,70,92,65,80,85,72,90,76,88}             
+    };
+
+    float avg[COL];
+
+    for (int i = 0; i < COL; i++)
+        avg[i] = (score[1][i] + score[2][i]) / 2.0;
+
+    float median = sortAndMedian(score, avg);
+
+    cout << "學號 計概 數學 平均" << endl;
+    for (int i = 0; i < COL; i++)
+    {
+        cout << score[0][i] << "  "
+            << score[1][i] << "  "
+            << score[2][i] << "  "
+            << avg[i] << endl;
+    }
+
+    cout << "中位數 " << median << endl;
+
+    return 0;
+}
+
+
