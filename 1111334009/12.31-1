@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+
+struct Student {
+    int id;
+    string name;
+    int cs;      
+    int math;
+    float avg;
+};
+
+int binarySearch(Student s[], int n, int key) {
+    int low = 0, high = n - 1;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+
+        if (s[mid].id == key)
+            return mid;
+        else if (key < s[mid].id)
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    return -1;
+}
+
+int main() {
+    Student stu[] = {
+        {1001, "Tom", 80, 75, 0},
+        {1003, "Amy", 90, 88, 0},
+        {1005, "John", 70, 65, 0},
+        {1008, "Mary", 85, 92, 0}
+    };
+
+    int n = 4;
+
+    for (int i = 0; i < n; i++) {
+        stu[i].avg = (stu[i].cs + stu[i].math) / 2.0;
+    }
+
+    int key;
+    cout << "請輸入學號: ";
+    cin >> key;
+
+    int pos = binarySearch(stu, n, key);
+
+    if (pos != -1) {
+        cout << "找到學生\n";
+        cout << "姓名: " << stu[pos].name << endl;
+        cout << "計概: " << stu[pos].cs << endl;
+        cout << "數學: " << stu[pos].math << endl;
+        cout << "平均: " << stu[pos].avg << endl;
+    }
+    else {
+        cout << "查無此學號\n";
+    }
+
+    return 0;
+}
