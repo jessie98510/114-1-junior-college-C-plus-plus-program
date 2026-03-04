@@ -1,0 +1,148 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Student {
+    int id;         
+    string name;    
+};
+
+struct ListNode {
+    Student data;
+    ListNode* nextPtr;
+};
+
+typedef ListNode* ListNodePtr;
+
+void insert(ListNodePtr& sPtr, Student value);
+bool deleteNode(ListNodePtr& sPtr, int id);
+bool isEmpty(ListNodePtr sPtr);
+void printList(ListNodePtr currentPtr);
+void instructions();
+
+int main() {
+    ListNodePtr startPtr = NULL;
+    int choice;
+
+    instructions();
+    cout << "? ";
+    cin >> choice;
+
+    while (choice != 3) {
+        switch (choice) {
+        case 1: {
+            Student stu;
+            cout << "請輸入學號: ";
+            cin >> stu.id;
+            cout << "請輸入姓名: ";
+            cin >> stu.name;
+
+            insert(startPtr, stu);
+            printList(startPtr);
+            break;
+        }
+        case 2: {
+            if (!isEmpty(startPtr)) {
+                int id;
+                cout << "請輸入要刪除的學號: ";
+                cin >> id;
+
+                if (deleteNode(startPtr, id)) {
+                    cout << "學號 " << id << " 已刪除。\n";
+                    printList(startPtr);
+                }
+                else {
+                    cout << "找不到該學號。\n";
+                }
+            }
+            else {
+                cout << "串列為空。\n";
+            }
+            break;
+        }
+        default:
+            cout << "選項錯誤。\n";
+            instructions();
+            break;
+        }
+
+        cout << "? ";
+        cin >> choice;
+    }
+
+    cout << "程式結束。\n";
+    return 0;
+}
+void instructions() {
+    cout << "\n請選擇:\n"
+        << "1 新增學生資料\n"
+        << "2 刪除學生資料\n"
+        << "3 結束程式\n";
+}
+
+void insert(ListNodePtr& sPtr, Student value) {
+    ListNodePtr newPtr = new ListNode;
+    newPtr->data = value;
+    newPtr->nextPtr = NULL;
+
+    ListNodePtr previousPtr = NULL;
+    ListNodePtr currentPtr = sPtr;
+
+    while (currentPtr != NULL && value.id > currentPtr->data.id) {
+        previousPtr = currentPtr;
+        currentPtr = currentPtr->nextPtr;
+    }
+
+    if (previousPtr == NULL) {
+        newPtr->nextPtr = sPtr;
+        sPtr = newPtr;
+    }
+    else {
+        previousPtr->nextPtr = newPtr;
+        newPtr->nextPtr = currentPtr;
+    }
+}
+bool deleteNode(ListNodePtr& sPtr, int id) {
+    if (sPtr == NULL)
+        return false;
+
+    if (id == sPtr->data.id) {
+        ListNodePtr tempPtr = sPtr;
+        sPtr = sPtr->nextPtr;
+        delete tempPtr;
+        return true;
+    }
+    ListNodePtr previousPtr = sPtr;
+    ListNodePtr currentPtr = sPtr->nextPtr;
+
+    while (currentPtr != NULL && currentPtr->data.id != id) {
+        previousPtr = currentPtr;
+        currentPtr = currentPtr->nextPtr;
+    }
+
+    if (currentPtr != NULL) {
+        previousPtr->nextPtr = currentPtr->nextPtr;
+        delete currentPtr;
+        return true;
+    }
+
+    return false;
+}
+bool isEmpty(ListNodePtr sPtr) {
+    return sPtr == NULL;
+}
+void printList(ListNodePtr currentPtr) {
+    if (isEmpty(currentPtr)) {
+        cout << "串列為空。\n";
+    }
+    else {
+        cout << "目前鏈結串列內容:\n";
+        while (currentPtr != NULL) {
+            cout << "學號: " << currentPtr->data.id
+                << " 姓名: " << currentPtr->data.name
+                << " --> ";
+            currentPtr = currentPtr->nextPtr;
+        }
+        cout << "NULL\n";
+    }
+}
