@@ -1,0 +1,150 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct student {
+    int id;
+    char name[20];
+    int computer;
+    int math;
+    double avg;
+    student* nextPtr;
+};
+
+typedef student ListNode;
+typedef ListNode* ListNodePtr;
+
+void insert(ListNodePtr* sPtr, int id, char name[], int computer, int math);
+void printList(ListNodePtr currentPtr);
+bool isEmpty(ListNodePtr sPtr);
+bool deleteNode(ListNodePtr* sPtr, int id); 
+
+int main()
+{
+    ListNodePtr startPtr = NULL;
+    int id, computer, math;
+    char name[20];
+    int n;
+    int deleteID;
+
+    cout << "請輸入學生人數: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "輸入學號: ";
+        cin >> id;
+
+        cout << "輸入姓名: ";
+        cin >> name;
+
+        cout << "輸入計概成績: ";
+        cin >> computer;
+
+        cout << "輸入數學成績: ";
+        cin >> math;
+
+        insert(&startPtr, id, name, computer, math);
+    }
+
+    cout << "\n原本鏈結串列:\n";
+    printList(startPtr);
+
+    cout << "\n輸入要刪除的學生ID: ";
+    cin >> deleteID;
+
+    if (deleteNode(&startPtr, deleteID))
+        cout << "刪除成功\n";
+    else
+        cout << "找不到資料\n";
+
+    cout << "\n刪除後鏈結串列:\n";
+    printList(startPtr);
+
+    return 0;
+}
+
+bool isEmpty(ListNodePtr sPtr)
+{
+    return sPtr == NULL;
+}
+
+void insert(ListNodePtr* sPtr, int id, char name[], int computer, int math)
+{
+    ListNodePtr newPtr = new ListNode;
+
+    newPtr->id = id;
+    strcpy(newPtr->name, name);
+    newPtr->computer = computer;
+    newPtr->math = math;
+    newPtr->avg = (computer + math) / 2.0;
+    newPtr->nextPtr = NULL;
+
+    ListNodePtr previousPtr = NULL;
+    ListNodePtr currentPtr = *sPtr;
+
+    while (currentPtr != NULL && id > currentPtr->id)
+    {
+        previousPtr = currentPtr;
+        currentPtr = currentPtr->nextPtr;
+    }
+
+    if (previousPtr == NULL)
+    {
+        newPtr->nextPtr = *sPtr;
+        *sPtr = newPtr;
+    }
+    else
+    {
+        previousPtr->nextPtr = newPtr;
+        newPtr->nextPtr = currentPtr;
+    }
+}
+
+bool deleteNode(ListNodePtr* sPtr, int id)
+{
+    if (isEmpty(*sPtr))
+        return false;
+
+    ListNodePtr previousPtr = NULL;
+    ListNodePtr currentPtr = *sPtr;
+
+    while (currentPtr != NULL && currentPtr->id != id)
+    {
+        previousPtr = currentPtr;
+        currentPtr = currentPtr->nextPtr;
+    }
+
+    if (currentPtr == NULL)
+        return false;
+
+    if (previousPtr == NULL)
+        *sPtr = currentPtr->nextPtr;
+    else
+        previousPtr->nextPtr = currentPtr->nextPtr;
+
+    delete currentPtr;
+    return true;
+}
+
+void printList(ListNodePtr currentPtr)
+{
+    if (isEmpty(currentPtr))
+    {
+        cout << "List is empty\n";
+        return;
+    }
+
+    cout << "ID\tName\tComputer\tMath\tAvg\n";
+
+    while (currentPtr != NULL)
+    {
+        cout << currentPtr->id << "\t"
+            << currentPtr->name << "\t"
+            << currentPtr->computer << "\t\t"
+            << currentPtr->math << "\t"
+            << currentPtr->avg << endl;
+
+        currentPtr = currentPtr->nextPtr;
+    }
+}
