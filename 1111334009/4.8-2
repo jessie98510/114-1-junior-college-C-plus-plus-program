@@ -1,0 +1,122 @@
+#include <iostream>
+using namespace std;
+
+class DogInterface {
+public:
+    virtual void input() = 0;
+    virtual bool isValid() = 0;
+    virtual void show() = 0;
+};
+
+struct Date {
+    int y, m, d;
+};
+
+class Dog : public DogInterface {
+private:
+    string name;
+    Date birth;
+    Date adopt;
+
+    const Date today = { 2026, 4, 8 };
+
+public:
+    Dog(string n = "", Date b = { 1990,1,1 }, Date a = { 1990,1,1 }) {
+        name = n;
+        birth = b;
+        adopt = a;
+    }
+
+    void input() override {
+        cout << "請輸入狗狗姓名: ";
+        cin >> name;
+
+        cout << "請輸入生日 (年 月 日): ";
+        cin >> birth.y >> birth.m >> birth.d;
+
+        cout << "請輸入領養日 (年 月 日): ";
+        cin >> adopt.y >> adopt.m >> adopt.d;
+    }
+
+    bool leap(int y) {
+        return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+    }
+
+    bool validDate(Date dt) {
+        if (dt.m < 1 || dt.m > 12) return false;
+
+        int days[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+        if (leap(dt.y)) days[1] = 29;
+
+        if (dt.d < 1 || dt.d > days[dt.m - 1]) return false;
+
+        return true;
+    }
+
+    bool lessEqual(Date d1, Date d2) {
+        if (d1.y != d2.y) return d1.y <= d2.y;
+        if (d1.m != d2.m) return d1.m <= d2.m;
+        return d1.d <= d2.d;
+    }
+
+    int age() {
+        int a = today.y - birth.y;
+
+        if (today.m < birth.m ||
+            (today.m == birth.m && today.d < birth.d))
+            a--;
+
+        return a;
+    }
+
+    bool isValid() override {
+
+        if (!validDate(birth) || !validDate(adopt)) {
+            cout << "❌ 日期不合法\n";
+            return false;
+        }
+
+        if (!lessEqual(birth, today)) {
+            cout << "❌ 生日不可晚於今天\n";
+            return false;
+        }
+
+        if (!lessEqual(birth, adopt)) {
+            cout << "❌ 領養日不可早於生日\n";
+            return false;
+        }
+
+        if (!lessEqual(adopt, today)) {
+            cout << "❌ 領養日不可晚於今天\n";
+            return false;
+        }
+
+        int a = age();
+        if (a < 0 || a > 20) {
+            cout << "❌ 年齡需介於 0~20 歲\n";
+            return false;
+        }
+
+        return true;
+    }
+
+    void show() override {
+        cout << "\n===== 狗狗資料 =====\n";
+        cout << "姓名: " << name << endl;
+        cout << "生日: " << birth.y << "/" << birth.m << "/" << birth.d << endl;
+        cout << "領養日: " << adopt.y << "/" << adopt.m << "/" << adopt.d << endl;
+        cout << "年齡: " << age() << " 歲\n";
+    }
+};
+
+int main() {
+    Dog d;
+
+    d.input();
+
+    if (d.isValid()) {
+        d.show();
+    }
+
+    return 0;
+}
