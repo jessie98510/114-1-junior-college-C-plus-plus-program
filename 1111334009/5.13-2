@@ -1,0 +1,207 @@
+1.
+#ifndef AIRCRAFT_H
+#define AIRCRAFT_H
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Aircraft
+{
+protected:
+   string name;
+   string id;
+   double wingspan;
+   double ceiling;
+
+public:
+   Aircraft( string, string, double, double );
+   virtual ~Aircraft();
+
+   virtual void printInfo() const;
+};
+
+#endif
+_________________________________________________________________________
+2.
+#include "Aircraft.h"
+
+Aircraft::Aircraft( string n, string i,
+                    double w, double c )
+{
+   name = n;
+   id = i;
+   wingspan = w;
+   ceiling = c;
+}
+
+Aircraft::~Aircraft()
+{
+   cout << "Aircraft Destructor: "
+        << name << endl;
+}
+
+void Aircraft::printInfo() const
+{
+   cout << "===== Aircraft Info =====" << endl;
+   cout << "Name      : " << name << endl;
+   cout << "ID        : " << id << endl;
+   cout << "Wingspan  : " << wingspan << " m" << endl;
+   cout << "Ceiling   : " << ceiling << " ft" << endl;
+}
+_________________________________________________________________________
+3.
+#ifndef AIRLINER_H
+#define AIRLINER_H
+
+#include "Aircraft.h"
+
+class Airliner : public Aircraft
+{
+private:
+   int passengerCount;
+   int toiletCount;
+
+public:
+   Airliner( string, string, double, double,
+             int, int );
+
+   ~Airliner();
+
+   void printInfo() const;
+};
+
+#endif
+_________________________________________________________________________
+4.
+#include "Airliner.h"
+
+Airliner::Airliner( string n, string i,
+                    double w, double c,
+                    int p, int t )
+   : Aircraft( n, i, w, c )
+{
+   passengerCount = p;
+   toiletCount = t;
+}
+
+Airliner::~Airliner()
+{
+   cout << "Airliner Destructor: "
+        << name << endl;
+}
+
+void Airliner::printInfo() const
+{
+   cout << "===== Airliner Info =====" << endl;
+
+   Aircraft::printInfo();
+
+   cout << "Passengers: "
+        << passengerCount << endl;
+
+   cout << "Toilets   : "
+        << toiletCount << endl;
+}
+_________________________________________________________________________
+5.
+#ifndef FIGHTJET_H
+#define FIGHTJET_H
+
+#include "Aircraft.h"
+
+class FightJet : public Aircraft
+{
+private:
+   int missileCount;
+   double machSpeed;
+   double thrust;
+
+public:
+   FightJet( string, string, double, double,
+             int, double, double );
+
+   ~FightJet();
+
+   void printInfo() const;
+};
+
+#endif
+_________________________________________________________________________
+6.
+#include "FightJet.h"
+
+FightJet::FightJet( string n, string i,
+                    double w, double c,
+                    int m, double speed,
+                    double th )
+   : Aircraft( n, i, w, c )
+{
+   missileCount = m;
+   machSpeed = speed;
+   thrust = th;
+}
+
+FightJet::~FightJet()
+{
+   cout << "FightJet Destructor: "
+        << name << endl;
+}
+
+void FightJet::printInfo() const
+{
+   cout << "===== FightJet Info =====" << endl;
+
+   Aircraft::printInfo();
+
+   cout << "Missiles  : "
+        << missileCount << endl;
+
+   cout << "Mach Speed: "
+        << machSpeed << endl;
+
+   cout << "Thrust    : "
+        << thrust << " kN" << endl;
+}
+_________________________________________________________________________
+7.
+#include <iostream>
+#include "Airliner.h"
+#include "FightJet.h"
+
+using namespace std;
+
+int main()
+{
+   Airliner a1(
+      "Boeing 747",
+      "A001",
+      68.4,
+      45000,
+      416,
+      10
+   );
+
+   FightJet f1(
+      "F-22 Raptor",
+      "F022",
+      13.6,
+      65000,
+      6,
+      2.25,
+      156
+   );
+
+   cout << endl;
+
+   a1.printInfo();
+
+   cout << endl;
+
+   f1.printInfo();
+
+   cout << endl;
+
+   return 0;
+}
