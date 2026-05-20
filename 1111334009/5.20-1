@@ -1,0 +1,131 @@
+1.
+// shape.h
+#ifndef SHAPE_H
+#define SHAPE_H
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class shape
+{
+protected:
+    string name;
+    double shape_area;
+
+public:
+    shape();
+
+    void area();
+};
+
+#endif
+_____________________________________________________________________________________
+2.
+// shape.cpp
+#include "shape.h"
+
+shape::shape()
+{
+    name = "shape";
+    shape_area = 0;
+}
+
+void shape::area()
+{
+    cout << "體積為：" << shape_area << endl;
+}
+_____________________________________________________________________________________
+3.
+// rectangle.h
+#ifndef RECTANGLE_H
+#define RECTANGLE_H
+
+#include "shape.h"
+
+class rectangle : public shape
+{
+protected:
+    double length;
+    double width;
+
+public:
+    rectangle();
+
+    void data_input();
+};
+
+#endif
+_____________________________________________________________________________________
+4.
+// rectangle.cpp
+#include "rectangle.h"
+
+rectangle::rectangle()
+{
+    length = 0;
+    width = 0;
+}
+
+void rectangle::data_input()
+{
+    cout << "請輸入長：";
+    cin >> length;
+
+    cout << "請輸入寬：";
+    cin >> width;
+}
+_____________________________________________________________________________________
+5.
+// cube.h
+#ifndef CUBE_H
+#define CUBE_H
+
+#include "rectangle.h"
+
+class cube : public rectangle
+{
+private:
+    double height;
+
+public:
+    cube();
+
+    void data_input();
+};
+
+#endif
+_____________________________________________________________________________________
+6.
+// cube.cpp
+#include "cube.h"
+
+cube::cube()
+{
+    height = 0;
+}
+
+void cube::data_input()
+{
+    rectangle::data_input();
+
+    cout << "請輸入高：";
+    cin >> height;
+
+    shape_area = length * width * height;
+}
+_____________________________________________________________________________________
+7.
+// main.cpp
+#include "cube.h"
+
+int main()
+{
+    cube c;
+
+    c.data_input();
+
+    c.area();
+
+    return 0;
+}
