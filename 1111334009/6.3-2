@@ -1,0 +1,58 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main()
+{
+    ofstream writefile;
+    string str;
+
+    writefile.open("test.txt", ios::out);
+
+    if (writefile.fail())
+    {
+        cout << "test.txt檔案無法開啟!\n";
+        return 1;
+    }
+
+    cout << "請輸入要存入檔案的內容：" << endl;
+    getline(cin, str);
+
+    writefile << str << endl;
+
+    writefile.close();
+
+    ifstream readfile;
+    readfile.open("test.txt", ios::in);
+
+    if (readfile.fail())
+    {
+        cout << "test.txt檔案無法開啟!\n";
+        return 1;
+    }
+
+    char ch;
+    int filespace = 0;
+
+    cout << "\n檔案內容如下：" << endl;
+
+    while (1)
+    {
+        ch = readfile.get();
+
+        if (readfile.eof())
+            break;
+
+        cout << ch;
+        filespace++;
+    }
+
+    cout << "\n\n檔案長度為："
+        << filespace
+        << " 個位元組(Byte)" << endl;
+
+    readfile.close();
+
+    return 0;
+}
