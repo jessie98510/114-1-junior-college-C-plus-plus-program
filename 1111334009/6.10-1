@@ -1,0 +1,111 @@
+1.
+#ifndef ANIMALFILE_H
+#define ANIMALFILE_H
+
+#include <string>
+using namespace std;
+
+void writeAnimalData(const string& filename);
+
+void displayAnimalData(const string& filename);
+
+#endif
+
+2.
+#include "AnimalFile.h"
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+void writeAnimalData(const string& filename)
+{
+    ofstream writefile(filename);
+
+    if (!writefile)
+    {
+        cout << "檔案開啟失敗！\n";
+        return;
+    }
+
+    string name;
+    int age, height;
+
+    writefile << left
+        << setw(15) << "動物"
+        << setw(10) << "年齡"
+        << setw(10) << "身高"
+        << endl;
+
+    for (int i = 1; i <= 3; i++)
+    {
+        cout << "請輸入第" << i
+            << "種動物名稱、年齡、身高：";
+
+        cin >> name >> age >> height;
+
+        writefile << left
+            << setw(15) << name
+            << setw(10) << age
+            << setw(10) << height
+            << endl;
+    }
+
+    writefile.close();
+    cout << "\n資料已成功寫入檔案！\n";
+}
+
+void displayAnimalData(const string& filename)
+{
+    ifstream readfile(filename);
+
+    if (!readfile)
+    {
+        cout << "檔案開啟失敗！\n";
+        return;
+    }
+
+    string animal;
+    int age, height;
+
+    string title1, title2, title3;
+    readfile >> title1 >> title2 >> title3;
+
+    cout << "\n======== 動物資料表 ========\n";
+    cout << left
+        << setw(15) << title1
+        << setw(10) << title2
+        << setw(10) << title3
+        << endl;
+
+    cout << "-----------------------------------\n";
+
+    while (readfile >> animal >> age >> height)
+    {
+        cout << left
+            << setw(15) << animal
+            << setw(10) << age
+            << setw(10) << height
+            << endl;
+    }
+
+    readfile.close();
+}
+
+3.
+#include <iostream>
+#include "AnimalFile.h"
+
+using namespace std;
+
+int main()
+{
+    string filename = "animal.txt";
+
+    writeAnimalData(filename);
+
+    displayAnimalData(filename);
+
+    return 0;
+}
