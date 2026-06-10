@@ -1,0 +1,157 @@
+1.
+#ifndef ANIMALFILE_H
+#define ANIMALFILE_H
+
+#include <string>
+using namespace std;
+
+void writeAnimalData(const string& filename);
+
+void calculateAverage(const string& filename);
+
+void displayFile(const string& filename);
+
+#endif#pragma once
+2.
+#include "AnimalFile.h"
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+void writeAnimalData(const string& filename)
+{
+    ofstream writefile(filename);
+
+    if (!writefile)
+    {
+        cout << "檔案開啟失敗！\n";
+        exit(1);
+    }
+
+    int n;
+
+    cout << "請輸入動物數量：";
+    cin >> n;
+
+    string name;
+    int age;
+    int height;
+
+    writefile << left
+        << setw(15) << "動物"
+        << setw(10) << "年齡"
+        << setw(10) << "身高"
+        << endl;
+
+    for (int i = 1; i <= n; i++)
+    {
+        cout << "\n輸入第" << i
+            << "種動物名稱、年齡、身高：";
+
+        cin >> name >> age >> height;
+
+        writefile << left
+            << setw(15) << name
+            << setw(10) << age
+            << setw(10) << height
+            << endl;
+    }
+
+    writefile.close();
+}
+
+void calculateAverage(const string& filename)
+{
+    fstream file(filename, ios::in | ios::out);
+
+    if (!file)
+    {
+        cout << "檔案開啟失敗！\n";
+        exit(1);
+    }
+
+    string title1, title2, title3;
+    file >> title1 >> title2 >> title3;
+
+    string name;
+    int age;
+    int height;
+
+    int count = 0;
+
+    double totalAge = 0;
+    double totalHeight = 0;
+
+    while (file >> name >> age >> height)
+    {
+        totalAge += age;
+        totalHeight += height;
+        count++;
+    }
+
+    double avgAge = totalAge / count;
+    double avgHeight = totalHeight / count;
+
+    file.clear();
+
+    file.seekp(0, ios::end);
+
+    file << endl;
+
+    file << fixed << setprecision(2);
+
+    file << "平均年齡 : "
+        << avgAge
+        << endl;
+
+    file << "平均身高 : "
+        << avgHeight
+        << endl;
+
+    file.close();
+}
+
+void displayFile(const string& filename)
+{
+    ifstream readfile(filename);
+
+    if (!readfile)
+    {
+        cout << "檔案開啟失敗！\n";
+        exit(1);
+    }
+
+    string line;
+
+    cout << "\n==============================\n";
+    cout << " animal.txt 內容如下：\n";
+    cout << "==============================\n\n";
+
+    while (getline(readfile, line))
+    {
+        cout << line << endl;
+    }
+
+    readfile.close();
+}
+3.
+#include <iostream>
+#include "AnimalFile.h"
+
+using namespace std;
+
+int main()
+{
+    string filename = "animal.txt";
+
+    writeAnimalData(filename);
+
+    calculateAverage(filename);
+
+    displayFile(filename);
+
+    return 0;
+}
