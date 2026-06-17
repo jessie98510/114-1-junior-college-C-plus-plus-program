@@ -1,0 +1,57 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+    struct bombplane
+    {
+        char name[20];   
+        int speed;       
+        int bombs;       
+    };
+
+    bombplane plane;
+    bombplane readplane;
+
+    cout << "建立轟炸機資料：" << endl;
+    cout << "轟炸機名稱：";
+    cin >> plane.name;
+    cout << "飛行速度(km/h)：";
+    cin >> plane.speed;
+    cout << "炸彈數量：";
+    cin >> plane.bombs;
+
+    ofstream writefile;
+    writefile.open("bomb.bin", ios::out | ios::binary);
+
+    if (writefile.fail())
+    {
+        cout << "bomb.bin檔案無法開啟！" << endl;
+        return 1;
+    }
+
+    writefile.write((char*)&plane, sizeof(bombplane));
+
+    writefile.close();
+
+    ifstream readfile;
+    readfile.open("bomb.bin", ios::in | ios::binary);
+
+    if (readfile.fail())
+    {
+        cout << "bomb.bin檔案無法開啟！" << endl;
+        return 1;
+    }
+
+    readfile.read((char*)&readplane, sizeof(bombplane));
+
+    readfile.close();
+
+    cout << "\n從 bomb.bin 讀出的轟炸機資料：" << endl;
+    cout << "轟炸機名稱：" << readplane.name << endl;
+    cout << "飛行速度：" << readplane.speed << " km/h" << endl;
+    cout << "炸彈數量：" << readplane.bombs << endl;
+
+    return 0;
+}
